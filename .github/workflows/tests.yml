@@ -1,0 +1,36 @@
+# This workflow runs the linter and build on the Discovery Page project
+
+name: Cypress tests
+
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v2 # use the explicit version number
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          NEXT_PUBLIC_CONTENTFUL_SPACE_ID: ${{ secrets.NEXT_PUBLIC_CONTENTFUL_SPACE_ID }}
+          NEXT_PUBLIC_CONTENTFUL_TOKEN: ${{ secrets.NEXT_PUBLIC_CONTENTFUL_TOKEN }}
+          NEXT_PUBLIC_ORIGIN_URL: "http://localhost:3000"
+          NEXT_PUBLIC_BACKEND_API_URL: "https://staging.stay3sixty.com/api"
+        with:
+          build: yarn build
+          start: yarn start
+  
