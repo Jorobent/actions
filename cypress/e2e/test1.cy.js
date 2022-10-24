@@ -1,7 +1,7 @@
-const cypress = require("cypress")
+/* eslint-disable no-undef */
 
 describe('empty spec', () => {
 	it('passes', () => {
-		cypress.visit('http://localhost:3000/')
+		cy.visit('http://localhost:3000/')
 	})
 })
